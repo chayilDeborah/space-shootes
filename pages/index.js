@@ -1,14 +1,11 @@
-'use client'
+import dynamic from 'next/dynamic';
 
-import Game from "../components/Game";
-
-
-
+const Game = dynamic(() => import('../components/Game'), { ssr: false });
 
 export default function Home() {
   return (
-    <>
+    <div style={{ width: '100vw', height: '100vh' }}>
       <Game />
-    </>
+    </div>
   );
 }
