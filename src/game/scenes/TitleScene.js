@@ -55,7 +55,7 @@ class TitleScene extends Phaser.Scene {
   update(time, delta) {
     // Increase the loading bar width gradually
     this.loadTime += delta;
-    const barWidth = Math.min(400, this.loadTime / 10); // Adjust the speed of the loading bar
+    const barWidth = Math.min(200, this.loadTime / 10); // Adjust the speed of the loading bar
 
     // Clear previous foreground bar and draw it again with gradient effect
     this.loadingBarForeground.clear();
@@ -73,7 +73,7 @@ class TitleScene extends Phaser.Scene {
     this.loadingBarForeground.fillRect(760, 865, barWidth, 15); // Bottom half of the bar
 
     // Switch to the next scene after 4 seconds
-    if (this.loadTime >= 4000) {
+    if (this.loadTime >= 1000) {
       this.scene.switch('menuScene'); // Switch to the menu scene after 4 seconds
     }
   }
