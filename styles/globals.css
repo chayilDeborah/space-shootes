@@ -29,3 +29,36 @@ body {
     text-wrap: balance;
   }
 }
+/* CSS for pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* CSS for Start Button (pulse animation) */
+.start-button {
+  animation: pulse 1s infinite;
+}
+
+/* CSS for Connect Wallet button hover effect */
+.connect-wallet:hover {
+  background-color: #111a5e;
+  animation: pulse 1s infinite;
+}
+
+/* CSS for spaceship fire effect */
+@keyframes spaceshipFade {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+.menuspaceship {
+  animation: spaceshipFade 4s infinite;
+}
+
+/* CSS for pulse effect on hover */
+.pulse-on-hover:hover {
+  animation: pulse 1s infinite;
+}
