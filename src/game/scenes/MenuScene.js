@@ -1,32 +1,60 @@
 import Phaser from 'phaser';
 
+/**
+ * MenuScene class for the Phaser game.
+ * Handles the main menu interactions and UI.
+ */
 class MenuScene extends Phaser.Scene {
   constructor() {
     super({ key: 'menuScene' });
 
+    /** @type {Phaser.GameObjects.Image} */
     this.menuBackground = null;
+    /** @type {Phaser.GameObjects.Sprite} */
     this.menuspaceship = null;
+    /** @type {Phaser.GameObjects.Image} */
     this.startButton = null;
+    /** @type {Phaser.GameObjects.Container} */
     this.walletContainer = null;
+    /** @type {string|null} */
+    this.walletAddress = null;
+    /** @type {Function|null} */
+    this.connectWallet = null;
   }
 
+  /**
+   * Initializes the wallet functionality.
+   * @param {string|null} walletAddress - The connected wallet address.
+   * @param {Function} connectWallet - Function to connect the wallet.
+   */
+  initWallet(walletAddress, connectWallet) {
+    console.log(walletAddress,connectWallet,"herhe connect wallet");
+    this.walletAddress = walletAddress;
+    this.connectWallet = connectWallet;
+    this.updateWalletText();
+  }
+
+  /**
+   * Preloads assets for the scene.
+   */
   preload() {
-    this.load.image('menuBackground', '/image.png'); // Background image
-    this.load.image('menuspaceship', '/menuspaceship.svg'); // Spaceship image
-    this.load.image('startButton', '/menustart.svg'); // Start button image
-    this.load.image('walletIcon', '/wallet.svg'); // Connect wallet icon
-    this.load.image('loginIcon', '/login.svg'); // Daily login icon
-    this.load.image('baseIcon', '/smallbase.svg'); // Earn Base tokens icon
-    this.load.image('freeIcon', '/video.svg'); // Free rewards icons
-    this.load.image('userAvatar', '/user.svg'); // User avatar image
+    this.load.image('menuBackground', '/image.png');
+    this.load.image('menuspaceship', '/menuspaceship.svg');
+    this.load.image('startButton', '/menustart.svg');
+    this.load.image('walletIcon', '/wallet.svg');
+    this.load.image('loginIcon', '/login.svg');
+    this.load.image('baseIcon', '/smallbase.svg');
+    this.load.image('freeIcon', '/video.svg');
+    this.load.image('userAvatar', '/user.svg');
   }
 
+  /**
+   * Creates the scene and its elements.
+   */
   create() {
-    // Left and right background sections
     this.add.rectangle(0, 0, this.scale.width * 0.4, this.scale.height, 0x0f275d).setOrigin(0);
     this.menuBackground = this.add.image(this.scale.width * 0.7, this.scale.height / 2, 'menuBackground').setScale(2.2);
 
-    // Spaceship with animation
     this.menuspaceship = this.add.sprite(this.scale.width * 0.7, 600, 'menuspaceship');
     this.add.tween({
       targets: this.menuspaceship,
@@ -36,9 +64,8 @@ class MenuScene extends Phaser.Scene {
       yoyo: true
     });
 
-    // Start button with bounce animation and pointer cursor
     this.startButton = this.add.image(this.scale.width * 0.2, 950, 'startButton')
-      .setInteractive({ cursor: 'pointer' }) // Add pointer cursor
+      .setInteractive({ cursor: 'pointer' })
       .setScale(0.7);
 
     this.add.tween({
@@ -50,14 +77,12 @@ class MenuScene extends Phaser.Scene {
       yoyo: true
     });
 
-    // Start button click: Switch to GameScene
     this.startButton.on('pointerdown', () => {
-      this.scene.start('gameScene'); // Switch to GameScene when clicked
+      this.scene.start('gameScene');
     });
 
-    // Wallet Container, Icons, and other UI Elements...
     const walletIcon = this.add.image(20, 20, 'walletIcon').setScale(0.5);
-    const walletText = this.add.text(60, 20, 'CONNECT WALLET', {
+    const walletText = this.add.text(60, 20, this.getWalletDisplayText(), {
       font: '20px "Press Start 2P"',
       fill: '#ffffff',
     }).setOrigin(0, 0.5);
@@ -67,6 +92,17 @@ class MenuScene extends Phaser.Scene {
     this.walletContainer.setInteractive({ cursor: 'pointer' });
     this.walletContainer.on('pointerover', () => this.walletContainer.setScale(1.05));
     this.walletContainer.on('pointerout', () => this.walletContainer.setScale(1));
+    this.walletContainer.on('pointerdown', async () => {
+      if (this.connectWallet) {
+        console.log("here hehrhe")
+        const address = await this.connectWallet();
+        if (address) {
+          this.walletAddress = address;
+          this.updateWalletText();
+        }
+      }
+      console.log(this.walletAddress,"herhe");
+    });
 
     const graphics = this.add.graphics();
     graphics.lineStyle(2, 0x2774a4);
@@ -77,7 +113,6 @@ class MenuScene extends Phaser.Scene {
       this.walletContainer.height + 5
     );
 
-    // Daily login, earn tokens, and free rewards setup...
     const buttons = [
       { icon: 'loginIcon', y: 320, text: 'Daily Login' },
       { icon: 'baseIcon', y: 400, text: 'Earn Base Tokens' },
@@ -99,7 +134,6 @@ class MenuScene extends Phaser.Scene {
       btnIcon.on('pointerout', () => btnIcon.setScale(0.5));
     });
 
-    // User avatar, username, and level display...
     const userAvatar = this.add.image(205, 103, 'userAvatar').setScale(0.7);
     const username = this.add.text(230, 85, 'user101', {
       font: '20px "Press Start 2P"',
@@ -118,8 +152,25 @@ class MenuScene extends Phaser.Scene {
     this.add.container(0, 0, [userAvatar, username, userLevel]);
   }
 
-  update() {
-    // Continuous updates go here if needed
+  /**
+   * Returns the display text for the wallet address.
+   * @returns {string} The formatted wallet address or 'CONNECT WALLET'.
+   */
+  getWalletDisplayText() {
+    if (this.walletAddress) {
+      return `${this.walletAddress.slice(0, 5)}...${this.walletAddress.slice(-3)}`;
+    }
+    return 'CONNECT WALLET';
+  }
+
+  /**
+   * Updates the wallet text display with the connected address.
+   */
+  updateWalletText() {
+    if (this.walletContainer) {
+      const walletText = this.walletContainer.getAt(1);
+      walletText.setText(this.getWalletDisplayText());
+    }
   }
 }
 

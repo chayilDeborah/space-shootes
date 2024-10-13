@@ -264,7 +264,7 @@ class GameScene extends Phaser.Scene {
     // Update the body text and link for level 2
     const bodyTextContent = this.level === 2
       ? 'Coinbase Wallet is a self-custody crypto wallet, meaning you have full control over your digital assets like cryptocurrencies, NFTs, and tokens. Unlike the Coinbase exchange, which holds your assets for you, Coinbase Wallet gives you the private keys to your wallet—so only you can access it.'
-      : 'Basenames are unique identifiers used on the Base blockchain for easy identification and fast transactions.';
+      : 'Basenames are unique identifiers used on the Base blockchain for easy identification and fast transactions. Connect with Based builders. Build your Based profile';
   
     const bodyText = this.add.text(
       700, 450,
@@ -272,7 +272,7 @@ class GameScene extends Phaser.Scene {
       { font: '20px Arial', fill: '#ffffff', align: 'left', wordWrap: { width: 500 }, lineSpacing: 10 }
     );
   
-    const getNowButton = this.add.image(960, 650, 'getNowButton') // Replaced text with image
+    const getNowButton = this.add.image(930, 680, 'getNowButton') // Replaced text with image
       .setInteractive({ useHandCursor: true });
 
     // Update the link for level 2
