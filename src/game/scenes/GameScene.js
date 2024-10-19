@@ -11,7 +11,7 @@ class GameScene extends Phaser.Scene {
     this.level = 1;
     this.scoreText = null;
     this.levelText = null;
-    this.scoreTextStyle = { font: '65px Arial', fill: '#ffffff', align: 'center' };
+    this.scoreTextStyle = { font: '40px Arial', fill: '#ffffff', align: 'center', marginBottom: 20,  };
     this.levelTextStyle = { font: '40px Arial', fill: '#ffffff', align: 'center' };
 
     this.gameOverText = null;
@@ -105,6 +105,15 @@ class GameScene extends Phaser.Scene {
         this.gameOverText.on('pointerdown', () => this.scene.restart());
       }
     );
+
+    // Add a timed event to spawn aliens every few seconds
+    this.time.addEvent({
+      delay: 5000, // Adjust the delay as needed (e.g., 5000ms = 5 seconds)
+      callback: this.spawnAliens,
+      callbackScope: this,
+      loop: true,
+      args: [2 + this.level] // Pass the number of aliens to spawn
+    });
   }
 
   update(time, delta) {
@@ -276,7 +285,7 @@ class GameScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true });
 
     // Update the link for level 2
-    const link = this.level === 2 ? 'https://smart.com' : 'https://base.com';
+    const link = this.level === 2 ? 'https://help.coinbase.com/en/wallet/getting-started/create-a-coinbase-wallet' : 'https://www.base.org/names?utm_source=dotorg&medium=hero';
     getNowButton.on('pointerdown', () => {
       window.open(link, '_blank');
     });

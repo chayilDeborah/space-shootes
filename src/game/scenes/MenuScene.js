@@ -28,7 +28,6 @@ class MenuScene extends Phaser.Scene {
    * @param {Function} connectWallet - Function to connect the wallet.
    */
   initWallet(walletAddress, connectWallet) {
-    console.log(walletAddress,connectWallet,"herhe connect wallet");
     this.walletAddress = walletAddress;
     this.connectWallet = connectWallet;
     this.updateWalletText();
@@ -93,17 +92,11 @@ class MenuScene extends Phaser.Scene {
     this.walletContainer.on('pointerover', () => this.walletContainer.setScale(1.05));
     this.walletContainer.on('pointerout', () => this.walletContainer.setScale(1));
     this.walletContainer.on('pointerdown', async () => {
-      if (this.connectWallet) {
-        console.log("here hehrhe")
-        const address = await this.connectWallet();
-        if (address) {
-          this.walletAddress = address;
-          this.updateWalletText();
-        }
+      if (this.connectWallet && !this.walletAddress) {
+        await this.connectWallet();
       }
-      console.log(this.walletAddress,"herhe");
     });
-
+    
     const graphics = this.add.graphics();
     graphics.lineStyle(2, 0x2774a4);
     graphics.strokeRect(

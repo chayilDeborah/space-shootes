@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import { useAddress, useMetamask } from '@thirdweb-dev/react';
 
 /**
  * Game component that initializes a Phaser game.
@@ -8,8 +9,10 @@ import dynamic from 'next/dynamic';
  * @param {Function} props.connectWallet - Function to connect the wallet.
  * @returns {JSX.Element} The game container.
  */
-const Game = ({ walletAddress, connectWallet }) => {
+const Game = () => {
   const gameRef = useRef(null);
+  const address = useAddress();
+  const connectWallet = useMetamask();
 
   useEffect(() => {
     let game;
@@ -36,28 +39,21 @@ const Game = ({ walletAddress, connectWallet }) => {
 
       game = new Phaser.Game(config);
 
-      // Listen for the scene creation event
-      
-       // console.log("scene");
-        game.scene.scenes.filter(scene => {
-          console.log("scene filter");
-          console.log(scene.scene.key,"scene key");
-          if(scene.scene.key === 'menuScene'){
-          scene.initWallet(walletAddress, connectWallet);
-        }})
-       
-     
+      game.scene.scenes.forEach(scene => {
+        if (scene.scene.key === 'menuScene') {
+          scene.initWallet(address, connectWallet);
+        }
+      });
     };
 
     initPhaser();
 
     return () => {
       if (game) {
-        game.events.off('scene-create'); // Remove the event listener
         game.destroy(true);
       }
     };
-  }, [connectWallet, walletAddress]);
+  }, [address, connectWallet]);
 
   return <div ref={gameRef} style={{ width: '100%', height: '100%' }} />;
 };
