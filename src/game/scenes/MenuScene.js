@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-
+import { ConnectWallet } from "@thirdweb-dev/react";
 /**
  * MenuScene class for the Phaser game.
  * Handles the main menu interactions and UI.
@@ -168,3 +168,5 @@ class MenuScene extends Phaser.Scene {
 }
 
 export default MenuScene;
+
+// <ConnectWallet/>
