@@ -57,7 +57,7 @@ class GameScene extends Phaser.Scene {
     this.scoreText = this.add.text(10, 10, 'Score: ' + this.score.toString(), this.scoreTextStyle);
 
     // Create ship and set physics properties
-    this.ship = this.physics.add.sprite(1920 / 2, 1080 - 100, 'ship');
+    this.ship = this.physics.add.sprite(1920 / 2, 1080 - 180, 'ship');
 
     // Create groups for missiles and aliens
     this.missileGroup = this.physics.add.group();
@@ -79,7 +79,7 @@ class GameScene extends Phaser.Scene {
         this.score += 10;
         this.scoreText.setText('Score: ' + this.score.toString());
 
-        if (this.score % 70 === 0) {
+        if (this.score % 100 === 0) {
           this.levelComplete();
         } else {
           this.spawnAliens(2 + this.level); // Spawn more aliens with increasing difficulty

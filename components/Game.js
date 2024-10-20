@@ -25,7 +25,7 @@ const Game = () => {
 
       const config = {
         type: Phaser.AUTO,
-        width: 1920,
+        width: 2020,
         height: 1080,
         scene: [TitleScene, MenuScene, GameScene],
         physics: {
@@ -41,7 +41,7 @@ const Game = () => {
 
       game.scene.scenes.forEach(scene => {
         if (scene.scene.key === 'menuScene') {
-          scene.initWallet(address, connectWallet);
+          scene.init({ connectWallet }); // Pass the connectWallet function
         }
       });
     };
