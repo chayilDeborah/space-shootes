@@ -124,6 +124,13 @@ class MenuScene extends Phaser.Scene {
     });
 
     this.add.container(0, 0, [userAvatar, username, userLevel]);
+
+    // Add prompt text
+    this.add.text(this.scale.width - 90, 40, 'NOTE: Reduce screen resolution if you can\'t see the Start button.', {
+      font: '25px Arial',
+      fill: '#ffffff',
+      align: 'center'
+    }).setOrigin(1.6, 0);
   }
 
  

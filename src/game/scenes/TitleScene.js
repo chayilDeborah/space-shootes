@@ -85,7 +85,7 @@ class TitleScene extends Phaser.Scene {
     this.loadingBarForeground.fillRect(590, 665, barWidth, 15); // Bottom half of the bar
 
     // Switch to the next scene after 4 seconds
-    if (this.loadTime >= 1000) {
+    if (this.loadTime >= 4000) {
       this.scene.switch('menuScene'); // Switch to the menu scene after 4 seconds
     }
   }

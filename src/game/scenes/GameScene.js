@@ -205,7 +205,7 @@ class GameScene extends Phaser.Scene {
       case 2:
         modalText = 'Base is a Layer 2 blockchain that enhances Ethereum’s performance by reducing transaction costs\n' +
                     'and speeding up processes while maintaining the security of Ethereum.';
-        modalHeading = 'Coinbase Wallet';
+        modalHeading = 'BASE TIPS';
         break;
       case 3:
         modalText = 'One of Base’s key advantages is significantly reduced gas fees, making it cheaper to execute\n' +
