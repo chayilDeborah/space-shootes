@@ -126,11 +126,15 @@ class MenuScene extends Phaser.Scene {
     this.add.container(0, 0, [userAvatar, username, userLevel]);
 
     // Add prompt text
-    this.add.text(this.scale.width - 90, 40, 'NOTE: Reduce screen resolution if you can\'t see the Start button.', {
-      font: '25px Arial',
-      fill: '#ffffff',
-      align: 'center'
-    }).setOrigin(1.6, 0);
+    this.add.text(this.scale.width - 10, 30, 
+      'NOTE: Reduce screen resolution if you can\'t see the Start button.\n' +
+      'This is a Web game. Use the Space Key for shooting. Use the Left and Right keys to direct the spaceship.', {
+        font: '20px Arial',
+        fill: '#ffffff',
+        align: 'left',
+        lineSpacing: 10,
+        wordWrap: { width: 800, useAdvancedWrap: true }
+      }).setOrigin(1.6, 0);
   }
 
  
