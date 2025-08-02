@@ -25,7 +25,6 @@ class GameScene extends Phaser.Scene {
       this.score = data.score || 0;
     }
   }
-
   preload() {
     console.log('Game Scene');
 
