@@ -1,18 +1,20 @@
 import { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { useAddress, useMetamask } from '@thirdweb-dev/react';
+import { useAccount } from 'wagmi';
+import { useAppKit } from '@reown/appkit/react';
 
 /**
  * Game component that initializes a Phaser game.
- * @param {Object} props - Component properties.
- * @param {string} props.walletAddress - The connected wallet address.
- * @param {Function} props.connectWallet - Function to connect the wallet.
  * @returns {JSX.Element} The game container.
  */
 const Game = () => {
   const gameRef = useRef(null);
-  const address = useAddress();
-  const connectWallet = useMetamask();
+  const { address, isConnected } = useAccount();
+  const { open } = useAppKit();
+
+  const connectWallet = () => {
+    open();
+  };
 
   useEffect(() => {
     let game;
@@ -41,7 +43,11 @@ const Game = () => {
 
       game.scene.scenes.forEach(scene => {
         if (scene.scene.key === 'menuScene') {
-          scene.init({ connectWallet }); // Pass the connectWallet function
+          scene.init({ 
+            connectWallet,
+            address,
+            isConnected 
+          });
         }
       });
     };
@@ -53,7 +59,7 @@ const Game = () => {
         game.destroy(true);
       }
     };
-  }, [address, connectWallet]);
+  }, [address, isConnected]);
 
   return <div ref={gameRef} style={{ width: '100%', height: '100%' }} />;
 };
